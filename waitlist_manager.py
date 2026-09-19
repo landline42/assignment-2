@@ -6,11 +6,12 @@ class Node:
         name (str): The name of the customer.
         next (Node): A reference to the next node in the list.
     '''
+
+    def __init__(self, name):
+        self.name = name
+        self.next = None
     
     
-
-
-
 # Create a LinkedList class to manage the waitlist
 class LinkedList:
     '''
@@ -23,11 +24,100 @@ class LinkedList:
         remove(name): Removes a customer from the waitlist by name.
         print_list(): Prints the current waitlist.
     '''
-    
+
+    def __init__(self):
+        self.head = None
+
+    def add_front(self, name):
+
+        #Create new node object
+        new_head = Node(name)
+
+        #Set the new node's next attribute to the previous head
+        new_head.next = self.head
+
+        #Set the head to the new node
+        self.head = new_head
+
+
+    def add_end(self, name):
+
+        #Create new node object
+        new_end = Node(name)
+
+        #Check if the list is empty
+        if self.head == None:
+            self.head = new_end
+
+        #Find the end of the list
+        else:
+            last_node = self.head
+            while last_node.next:  #Iterate through the list until final node is reached
+                last_node = last_node.next
+
+            #Set the final node's next attribute to the new node
+            last_node.next = new_end
+
+
+    def remove(self, name):
+        #Check if the list is empty
+        if self.head == None:
+            print("The list is empty.")
+            return
+
+        #Check if the list only contains one node
+        elif self.head.next == None:
+            print(self.head.name, "removed from waitlist.")
+            self.head = None
+            return
+
+        #Check if the argument is the head
+        elif self.head.name == name:
+            print(self.head.name, "removed from waitlist." )
+            self.head = self.head.next
+            return
+
+        #Otherwise, iterate through the list until the node is located.
+        else:
+            #Create variables to keep track of current place in the list and the previous node accessed. Start with the head
+            current_node = self.head
+            previous_node = None
+
+            #Iterate through the list and check for a match using the node's name attribute
+            while current_node:
+                if current_node.name == name:
+                    print(current_node.name, "removed from waitlist.")
+                    previous_node.next = current_node.next  #Remove the current node from the list by setting the previous node's next attribute to the current node's next attribute
+                    return
+
+                #Keep track of the previous node   
+                previous_node = current_node
+
+                #Set the current_node to the next node in the list
+                current_node = current_node.next
+
+            print("No matches found.")
+
+    def print_list(self):
+
+        #Check if the list is empty
+        if self.head == None:
+            print("The list is empty.")
+            
+        #Create variable to keep track of current place in the list. Start with the head
+        current_node = self.head
+
+        #Iterate through the list and print each node's name value
+        while current_node:
+            print(current_node.name)
+
+            #Set current_node to the next node in the list
+            current_node = current_node.next
 
 
 def waitlist_generator():
     # Create a new linked list instance
+    linked_list = LinkedList()
     
     
     while True:
@@ -43,25 +133,27 @@ def waitlist_generator():
         if choice == "1":
             name = input("Enter customer name to add to front: ")
             # Call the add_front method
+            linked_list.add_front(name.lower())
             
 
         elif choice == "2":
             name = input("Enter customer name to add to end: ")
             # Call the add_end method
+            linked_list.add_end(name.lower())
             
 
         elif choice == "3":
             name = input("Enter customer name to remove: ")
             # Call the remove method
+            linked_list.remove(name.lower())
             
             
         elif choice == "4":
             print("Current waitlist:")
             # Print out the entire linked list using the print_list method.
-            
-            
-            
+            linked_list.print_list()
 
+            
         elif choice == "5":
             print("Exiting waitlist manager.")
             break
@@ -69,6 +161,7 @@ def waitlist_generator():
             print("Invalid option. Please choose 1–5.")
 
 # Call the waitlist_generator function to start the program
+waitlist_generator()
 
 
 '''
