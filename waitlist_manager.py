@@ -31,23 +31,23 @@ class LinkedList:
     def add_front(self, name):
 
         #Create new node object
-        new_head = Node(name)
+        new_node = Node(name)
 
         #Set the new node's next attribute to the previous head
-        new_head.next = self.head
+        new_node.next = self.head
 
         #Set the head to the new node
-        self.head = new_head
+        self.head = new_node
 
 
     def add_end(self, name):
 
         #Create new node object
-        new_end = Node(name)
+        new_node = Node(name)
 
         #Check if the list is empty
         if self.head == None:
-            self.head = new_end
+            self.head = new_node
 
         #Find the end of the list
         else:
@@ -56,7 +56,7 @@ class LinkedList:
                 last_node = last_node.next
 
             #Set the final node's next attribute to the new node
-            last_node.next = new_end
+            last_node.next = new_node
 
 
     def remove(self, name):
@@ -87,6 +87,7 @@ class LinkedList:
             while current_node:
                 if current_node.name == name:
                     print(current_node.name, "removed from waitlist.")
+
                     previous_node.next = current_node.next  #Remove the current node from the list by setting the previous node's next attribute to the current node's next attribute
                     return
 
@@ -107,7 +108,7 @@ class LinkedList:
         #Create variable to keep track of current place in the list. Start with the head
         current_node = self.head
 
-        #Iterate through the list and print each node's name value
+        #Iterate through the list and print each node's name attribute
         while current_node:
             print(current_node.name)
 
@@ -118,7 +119,6 @@ class LinkedList:
 def waitlist_generator():
     # Create a new linked list instance
     linked_list = LinkedList()
-    
     
     while True:
         print("\n--- Waitlist Manager ---")
@@ -166,7 +166,17 @@ waitlist_generator()
 
 '''
 Design Memo: Write Your Design Memo Include a 200–300 word response in your code or in a .txt file:
-- How does your list work?
-- What role does the head play?
-- When might a real engineer need a custom list like this?
+
+1. How does your list work?
+
+The list works by linking together objects, called nodes, using an attribute that specifies the next node in the list. Each node object has a value attribute and an attribute pointing to the next node in the list. Additionally, nodes in the list are not accessed using indexes. In Python, this can be done by creating a LinkedList class with a head attribute. Node objects can created using a Node class, with an attribute for a value and the next node in the list.
+
+2. What role does the head play?
+
+The head specifies the beginning of the linked list. It can be used as a starting point when adding new nodes or when iterating through the linked list. 
+
+3. When might a real engineer need a custom list like this?
+
+It is faster to insert and delete nodes from the middle of a linked list than from a Python list. Since each node in the list has memory allocated separately, adding and removing items from the list is more efficient than in a Python list. A software engineer may choose linked lists for applications such as waitlists, bookshelves, or anything where objects will be frequently added and removed from any part of the list. A bookshelf is a good example of a practical use for linked lists, since books can be added and removed from any part of the shelf. For example, a library could use an application that uses linked lists to keep track of what books are on the shelf and their position on the shelf. 
+
 '''
